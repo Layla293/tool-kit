@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Công Cụ - Laylaland Toolkit</title>
+  <style>
+    body {font-family: Arial, sans-serif; background: #f3e5f5; margin: 0; padding: 2rem;}
+    h1 {text-align: center; color: #9c27b0;}
+    .tools {display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;}
+    .tool {background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;}
+    pre {background: #f0f0f0; padding: 1rem; border-radius: 0.5rem; white-space: pre-wrap; word-wrap: break-word; margin-top: 2rem;}
+    button {margin: 0.5rem; padding: 0.5rem 1rem; background: #9c27b0; color: white; border: none; border-radius: 0.5rem; cursor: pointer;}
+    button:hover {background: #7b1fa2;}
+  </style>
+</head>
+<body>
+
+<h1>Các Công Cụ Chỉnh Sửa</h1>
+
+<div class="tools">
+  <div class="tool">
+    <input type="file" id="fileInput">
+    <div style="margin-top: 1rem;">
+      <button onclick="removeEmptyLines()">Xóa dòng trống</button>
+      <button onclick="mergeLines()">Gộp dòng thừa</button>
+      <button onclick="saveFile()">Tải File TXT</button>
+    </div>
+  </div>
+</div>
+
+<div id="fileContent"></div>
+
+<script>
+const fileInput = document.getElementById('fileInput');
+const fileContent = document.getElementById('fileContent');
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length > 0) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const content = e.target.result;
+      fileContent.innerHTML = `<pre id="contentDisplay">${content}</pre>`;
+    };
+    reader.readAsText(fileInput.files[0], 'UTF-8');
+  }
+});
+
+function removeEmptyLines() {
+  const pre = document.getElementById('contentDisplay');
+  if (!pre) return;
+  const lines = pre.textContent.split('\n');
+  const cleaned = lines.map(line => line.trim()).filter(line => line !== '');
+  pre.textContent = cleaned.join('\n');
+}
+
+function mergeLines() {
+  const pre = document.getElementById('contentDisplay');
+  if (!pre) return;
+  const lines = pre.textContent.split('\n').map(line => line.trim());
+  const merged = lines.join(' ').replace(/\s{2,}/g, ' ').trim();
+  pre.textContent = merged;
+}
+
+function saveFile() {
+  const pre = document.getElementById('contentDisplay');
+  if (!pre) {
+    alert("Không có nội dung để lưu!");
+    return;
+  }
+  const text = pre.textContent;
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'truyen_da_chinh_sua.txt';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [],
+  "override": {
+    "/upload/*": { "path": "/upload/index.html" },
+    "/rawlist/*": { "path": "/rawlist/index.html" },
+    "/tool/*": { "path": "/tool/index.html" }
+  }
+}

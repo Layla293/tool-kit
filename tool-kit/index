@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laylaland Toolkit</title>
+  <style>
+    body {background: linear-gradient(45deg, #d8f3f9, #b3f2ff, #d0e2f6);font-family: Arial,sans-serif;margin:0;padding:0;}
+    header {background-color: #00bcd4;color:white;padding:1rem;text-align:center;font-size:2rem;}
+    main {padding:2rem;}
+    section {background:white;padding:1.5rem;margin-bottom:1.5rem;border-radius:0.75rem;box-shadow:0 4px 8px rgba(0,0,0,0.1);}
+    footer {text-align:center;padding:1rem;font-size:0.9rem;color:#555;}
+    a.button {display:inline-block;margin:0.5rem;padding:0.75rem 1.5rem;background:#00acc1;color:white;text-decoration:none;border-radius:0.5rem;transition:background 0.3s;}
+    a.button:hover {background:#008ba3;}
+  </style>
+</head>
+<body>
+<header>
+  Laylaland Toolkit
+</header>
+<main>
+<section>
+  <h2>Upload File Truyện</h2>
+  <p>Dùng công cụ bên dưới để tải truyện lên.</p>
+  <a href="upload/" class="button">Vào Trang Upload</a>
+</section>
+
+<section>
+  <h2>Quản lý Rawlist</h2>
+  <p>Kiểm tra, chỉnh sửa danh sách file raw đã tải lên.</p>
+  <a href="rawlist/" class="button">Vào Trang Rawlist</a>
+</section>
+
+<section>
+  <h2>Công Cụ Chỉnh Sửa</h2>
+  <p>Sử dụng các công cụ chỉnh sửa nội dung nhanh chóng.</p>
+  <a href="tool/" class="button">Vào Trang Công Cụ</a>
+</section>
+</main>
+<footer>
+  Laylaland Toolkit &copy; 2025
+</footer>
+</body>
+</html>

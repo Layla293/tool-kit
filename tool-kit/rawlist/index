@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quét File R2 - Tạo Rawlist</title>
+  <style>
+    body {font-family: Arial, sans-serif; background: #e3f2fd; margin: 0; padding: 2rem;}
+    h1 {text-align: center; color: #2196f3;}
+    input[type="text"] {width: 100%; padding: 0.5rem; margin-top: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; border: 1px solid #ccc;}
+    button {padding: 0.75rem 1.5rem; background: #2196f3; color: white; border: none; border-radius: 0.5rem; cursor: pointer;}
+    button:hover {background: #1976d2;}
+    pre {background: #f1f1f1; padding: 1rem; margin-top: 2rem; border-radius: 0.5rem; overflow-x: auto; white-space: pre-wrap;}
+  </style>
+</head>
+<body>
+
+<h1>Quét File R2 - Sinh Rawlist</h1>
+
+<input type="text" id="baseUrl" placeholder="Nhập đường dẫn thư mục R2 public (không có dấu / ở cuối)">
+<br>
+<button onclick="scanFiles()">Quét và Tạo Rawlist</button>
+
+<div id="output"></div>
+
+<script>
+async function scanFiles() {
+  const baseUrl = document.getElementById('baseUrl').value.trim();
+  if (!baseUrl) {
+    alert("Vui lòng nhập đường dẫn thư mục R2!");
+    return;
+  }
+
+  try {
+    const response = await fetch(baseUrl + '/?format=json');
+    const data = await response.json();
+    const files = data.objects || [];
+
+    const rawlist = [];
+
+    files.forEach(file => {
+      const filename = file.key;
+      if (filename.endsWith('.zip') || filename.endsWith('.html') || filename.endsWith('.txt')) {
+        const nameOnly = filename.replace(/\.(zip|html|txt)$/i, '');
+        rawlist.push({
+          name: nameOnly,
+          url: baseUrl + '/' + filename
+        });
+      }
+    });
+
+    const rawlistJson = JSON.stringify(rawlist, null, 2);
+
+    document.getElementById('output').innerHTML = `
+      <h2>Kết quả Rawlist.json</h2>
+      <pre>${rawlistJson}</pre>
+      <button onclick="downloadRawlist('${btoa(rawlistJson)}')">Tải rawlist.json</button>
+    `;
+  } catch (error) {
+    alert("Không thể quét file! Kiểm tra lại đường dẫn hoặc định dạng thư mục.");
+  }
+}
+
+function downloadRawlist(encodedData) {
+  const data = atob(encodedData);
+  const blob = new Blob([data], { type: 'application/json;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'rawlist.json';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>
